@@ -7,8 +7,6 @@ function getUser(string $value, string $column)
   $allowedColumns = [
     'id'           => 'users.id',
     'username'     => 'users.username',
-    'email'        => 'users.email',
-    'nama_lengkap' => 'users.nama_lengkap'
   ];
 
   if (!array_key_exists($column, $allowedColumns)) {
@@ -41,9 +39,15 @@ function validate(array $inputData, array $rules)
   $data_valid = filter_var_array($inputData, $rules);
 
   $errors = [];
-  foreach ($data_valid as $key => $value) {
-    if ($value === false || $value === null || empty($value) || (is_string($value) && trim($value) === '')) {
-      $errors[$key] = "Input Kolom " . ucfirst($key) . " tidak valid atau kosong.";
+  foreach ($rules as $key => $ruleConfig) {
+    $value = $data_valid[$key] ?? null;
+
+    if ($value === false || $value === null || (is_string($value) && trim($value) === '')) {
+      if (is_array($ruleConfig) and isset($ruleConfig['pesan'])) {
+        $errors[$key] = $ruleConfig['pesan'];
+      } else {
+        $errors[$key] = "Input Kolom " . ucfirst($key) . " tidak valid atau kosong.";
+      }
     }
   }
 
@@ -72,7 +76,7 @@ function unsetSession(array $sessions)
 function showErrorMessage(?string $error, string $default)
 {
   if (!empty($error) && isset($error)) {
-    return "<span class='error-message' role='alert'>{$error}</span>";
+    return "<span class='field-error' role='alert'><span class='field-error-icon' aria-hidden='true'>!</span>{$error}</span>";
   }
 
   return $default;

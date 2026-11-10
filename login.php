@@ -46,16 +46,16 @@ unset($_SESSION['errors'], $_SESSION['old']);
 			</a>
 			<ul class="nav-links">
 				<li>
-					<a href="index.html#beranda" aria-current="page">Beranda</a>
+					<a href="index.php#beranda" aria-current="page">Beranda</a>
 				</li>
-				<li><a href="index.html#tentang-kami">Tentang kami</a></li>
-				<li><a href="index.html#keanggotaan">Keanggotaan</a></li>
-				<li><a href="index.html#qna">Q&amp;A</a></li>
-				<li><a href="index.html#kontak">Kontak</a></li>
+				<li><a href="index.php#tentang-kami">Tentang kami</a></li>
+				<li><a href="index.php#keanggotaan">Keanggotaan</a></li>
+				<li><a href="index.php#qna">Q&amp;A</a></li>
+				<li><a href="index.php#kontak">Kontak</a></li>
 			</ul>
 			<div class="nav-actions">
-				<a class="button button-outline button-small" href="login.html">Login</a>
-				<a class="button button-primary button-small" href="daftar.html">Daftar anggota <span aria-hidden="true">→</span></a>
+				<a class="button button-outline button-small" href="login.php">Login</a>
+				<a class="button button-primary button-small" href="daftar.php">Daftar anggota <span aria-hidden="true">→</span></a>
 			</div>
 		</nav>
 	</header>
@@ -117,6 +117,33 @@ unset($_SESSION['errors'], $_SESSION['old']);
 					<p>Gunakan akun yang telah diberikan oleh pengurus.</p>
 				</header>
 				<div class="form-card-body">
+					<?php
+					if ($errors) {
+					?>
+						<div class="form-error-summary">
+							<span class="summary-error-icon" aria-hidden="true">!</span>
+
+							<?php
+							if ($errors['username'] || $errors['password']) {
+							?>
+								<div>
+									<strong>Data belum lengkap</strong>
+									<p>Lengkapi kolom yang wajib diisi sebelum menyimpan.</p>
+								</div>
+							<?php
+							} else {
+							?>
+								<div>
+									<strong>Data tidak valid</strong>
+									<p><?= $errors[0] ?></p>
+								</div>
+							<?php
+							}
+							?>
+						</div>
+					<?php
+					}
+					?>
 					<div class="form-field">
 						<label for="login-nim">NIM <span class="required-mark">*</span></label>
 						<div class="input-shell">
@@ -126,7 +153,7 @@ unset($_SESSION['errors'], $_SESSION['old']);
 								<path d="M6.5 15c.7-1.5 4.3-1.5 5 0M14 10h4M14 14h4" />
 							</svg>
 							<input
-								class="form-control has-leading-icon"
+								class="form-control <?= $errors['username'] ? 'is-error' : '' ?> has-leading-icon"
 								type="text"
 								id="login-nim"
 								name="username"
@@ -145,12 +172,12 @@ unset($_SESSION['errors'], $_SESSION['old']);
 								<path d="M8 10V7a4 4 0 1 1 8 0v3M12 14v3" />
 							</svg>
 							<input
-								class="form-control has-leading-icon has-trailing-control"
+								class="form-control <?= $errors['password'] ? 'is-error' : '' ?> has-leading-icon has-trailing-control"
 								type="password"
 								id="login-password"
 								name="password"
 								placeholder="Masukkan kata sandi"
-								value="<?= htmlspecialchars($old['username'] ?? '') ?>"
+								value="<?= htmlspecialchars($old['password'] ?? '') ?>"
 								autocomplete="current-password" />
 							<button
 								class="password-toggle"
@@ -165,6 +192,7 @@ unset($_SESSION['errors'], $_SESSION['old']);
 								</svg>
 							</button>
 						</div>
+						<?= showErrorMessage($errors['password'] ?? null, '') ?>
 					</div>
 
 					<div class="login-options">
@@ -191,7 +219,7 @@ unset($_SESSION['errors'], $_SESSION['old']);
 				<footer class="form-card-footer">
 					<p>
 						Belum menjadi anggota?
-						<a class="text-link" href="daftar.html">Daftar sekarang</a>
+						<a class="text-link" href="daftar.php">Daftar sekarang</a>
 					</p>
 				</footer>
 			</form>

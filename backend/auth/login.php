@@ -10,10 +10,17 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 }
 
 $ruleLogin = [
-  'username' => FILTER_SANITIZE_SPECIAL_CHARS,
+  'username' => [
+    'filter' => FILTER_CALLBACK,
+    'options' => function ($value) {
+      $cleanValue = trim($value);
+      return htmlspecialchars($cleanValue, ENT_QUOTES, 'UTF-8');
+    },
+  ],
   'password' => [
     'filter' => FILTER_VALIDATE_REGEXP,
     'options' => ['regexp' => '/^.{8,}$/'],
+    'pesan' => "Password minimal harus terdiri dari 8 karakter."
   ],
 ];
 
