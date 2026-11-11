@@ -1,5 +1,6 @@
 <?php
 
+define('BASE_URL', 'http://localhost/kematif/');
 
 function validate(array $inputData, array $rules)
 {
@@ -47,4 +48,10 @@ function showErrorMessage(?string $error, string $default)
   }
 
   return $default;
+}
+
+function redirectTo(string $url)
+{
+  header("Location:" . BASE_URL . $url . ".php");
+  exit();
 }

@@ -2216,3 +2216,66 @@ textarea.form-control {
 	font-weight: 700;
 	flex-shrink: 0;
 }
+/* FLASH MESSAGE */
+.flash-message {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding: 20px;
+	margin-bottom: 24px;
+
+	background-color: #eaf7fc;
+	border: 1px solid #a9e1f8;
+	border-radius: 16px;
+
+	color: #172033;
+}
+
+.flash-icon {
+	width: 34px;
+	height: 34px;
+	flex-shrink: 0;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	background-color: #06a5d5;
+	color: white;
+	border-radius: 50%;
+}
+
+.flash-content h3 {
+	margin: 0 0 6px;
+	font-size: 15px;
+	font-weight: 500;
+}
+
+.flash-content p {
+	margin: 0;
+	color: #18394b;
+	font-size: 12px;
+	line-height: 1.5;
+}
+
+/* RESPONSIVE */
+@media (max-width: 576px) {
+	.flash-message {
+		padding: 14px;
+		gap: 12px;
+		border-radius: 12px;
+	}
+
+	.flash-content h3 {
+		font-size: 16px;
+	}
+
+	.flash-content p {
+		font-size: 14px;
+	}
+
+	.flash-icon {
+		width: 30px;
+		height: 30px;
+	}
+}

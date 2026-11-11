@@ -2,10 +2,11 @@
 session_start();
 include_once "config/helper.php";
 
-$errors = $_SESSION['errors'];
-$old = $_SESSION['old'];
+$errors = $_SESSION['errors'] ?? null;
+$old = $_SESSION['old'] ?? null;
+$success = $_SESSION['success'] ?? null;
 
-unset($_SESSION['errors'], $_SESSION['old']);
+unset($_SESSION['errors'], $_SESSION['old'], $_SESSION['success']);
 ?>
 <!doctype html>
 <html lang="id">
@@ -133,6 +134,41 @@ unset($_SESSION['errors'], $_SESSION['old']);
 				</header>
 
 				<div class="registration-form-body">
+					<?php if ($success): ?>
+						<div class="flash-message">
+							<div class="flash-icon">
+								<svg xmlns="http://www.w3.org/2000/svg"
+									width="22"
+									height="22"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="3"
+									stroke-linecap="round"
+									stroke-linejoin="round">
+									<path d="m5 12 4 4L19 6" />
+								</svg>
+							</div>
+
+							<div class="flash-content">
+								<h3><?= htmlspecialchars($success['title'], ENT_QUOTES, 'UTF-8') ?></h3>
+								<p><?= htmlspecialchars($success['message'], ENT_QUOTES, 'UTF-8') ?></p>
+							</div>
+						</div>
+					<?php endif; ?>
+					<?php
+					if ($errors) {
+					?>
+						<div class="form-error-summary">
+							<span class="summary-error-icon" aria-hidden="true">!</span>
+							<div>
+								<strong><?= $errors['cekAnggota'] ? "Pendaftaran Gagal" : "Data belum lengkap" ?></strong>
+								<p><?= $errors['cekAnggota'] ? $errors['cekAnggota'] : "Lengkapi kolom yang wajib diisi sebelum menyimpan." ?></p>
+							</div>
+						</div>
+					<?php
+					}
+					?>
 					<fieldset class="form-section">
 						<legend>Data diri</legend>
 						<div class="registration-fields-grid">
