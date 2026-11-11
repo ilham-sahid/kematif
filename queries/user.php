@@ -1,5 +1,4 @@
 <?php
-require_once "../config/database.php";
 
 function getUser(PDO $pdo, string $value, string $column)
 {
