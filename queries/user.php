@@ -1,10 +1,8 @@
 <?php
 require_once "../config/database.php";
 
-function getUser(string $value, string $column)
+function getUser(PDO $pdo, string $value, string $column)
 {
-  global $pdo;
-
   $allowedColumns = [
     'id'           => 'users.id',
     'username'     => 'users.username',

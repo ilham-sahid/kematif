@@ -37,7 +37,7 @@ if (!$validated['success']) {
   exit();
 }
 
-$user = getUser($validated['data']['username'], 'username');
+$user = getUser($pdo, $validated['data']['username'], 'username');
 
 if ($user && password_verify($_POST['password'], $user['password_hash'])) {
   unsetSession(['errors', 'old']);
