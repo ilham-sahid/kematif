@@ -1,3 +1,12 @@
+<?php
+session_start();
+include_once "config/helper.php";
+
+$errors = $_SESSION['errors'];
+$old = $_SESSION['old'];
+
+unset($_SESSION['errors'], $_SESSION['old']);
+?>
 <!doctype html>
 <html lang="id">
 
@@ -94,7 +103,7 @@
 			aria-labelledby="register-form-title">
 			<form
 				class="auth-form-card registration-form"
-				action="#"
+				action="auth/daftar.php"
 				method="post"
 				id="registration-form">
 				<header class="registration-form-header">
@@ -108,14 +117,14 @@
 					</div>
 					<div class="completion-meter" aria-live="polite">
 						<div class="completion-label">
-							<span>Kelengkapan data</span><strong><output id="completion-count">0 / 6</output></strong>
+							<span>Kelengkapan data</span><strong><output id="completion-count">0 / 7</output></strong>
 						</div>
 						<div
 							class="progress-track"
 							role="progressbar"
 							aria-label="Kelengkapan data pendaftaran"
 							aria-valuemin="0"
-							aria-valuemax="6"
+							aria-valuemax="7"
 							aria-valuenow="0"
 							id="completion-progress">
 							<span id="completion-bar"></span>
@@ -142,9 +151,10 @@
 										id="register-name"
 										name="nama_lengkap"
 										placeholder="Masukkan nama lengkap"
-										autocomplete="name"
-										required />
+										value="<?= htmlspecialchars($old['nama_lengkap'] ?? '') ?>"
+										autocomplete="name" />
 								</div>
+								<?= showErrorMessage($errors['nama_lengkap'], '') ?>
 							</div>
 							<div class="form-field">
 								<label for="register-nim">NIM <span class="required-mark">*</span></label>
@@ -163,9 +173,10 @@
 										id="register-nim"
 										name="nim"
 										placeholder="E41261xxx"
-										autocomplete="off"
-										required />
+										value="<?= htmlspecialchars($old['nim'] ?? '') ?>"
+										autocomplete="off" />
 								</div>
+								<?= showErrorMessage($errors['nim'], '') ?>
 							</div>
 							<div class="form-field">
 								<label for="register-prodi">Program Studi <span class="required-mark">*</span></label>
@@ -181,12 +192,13 @@
 										type="text"
 										id="register-prodi"
 										name="prodi"
-										placeholder="Masukkan program studi"
-										required />
+										value="<?= htmlspecialchars($old['prodi'] ?? '') ?>"
+										placeholder="Masukkan program studi" />
 								</div>
+								<?= showErrorMessage($errors['prodi'], '') ?>
 							</div>
 							<div class="form-field">
-								<label for="register-contact">Email <span class="required-mark">*</span></label>
+								<label for="register-email">Email <span class="required-mark">*</span></label>
 								<div class="input-shell">
 									<svg
 										class="field-icon"
@@ -197,18 +209,18 @@
 									</svg><input
 										class="form-control has-leading-icon"
 										type="text"
-										id="register-contact"
+										id="register-email"
 										name="email"
 										placeholder="nama@email.com"
-										autocomplete="email"
-										required />
+										value="<?= htmlspecialchars($old['email'] ?? '') ?>"
+										autocomplete="email" />
 								</div>
-								<small class="field-hint">Gunakan email aktif atau nomor yang diawali 08 / +62</small>
+								<?= showErrorMessage($errors['email'], '<small class="field-hint">Gunakan email aktif atau nomor yang diawali 08 / +62</small>') ?>
 							</div>
 						</div>
 					</fieldset>
 					<div class="form-field">
-						<label for="register-contact">No. HP <span class="required-mark">*</span></label>
+						<label for="register-no_hp">No. HP <span class="required-mark">*</span></label>
 						<div class="input-shell">
 							<svg
 								class="field-icon"
@@ -219,13 +231,13 @@
 							</svg><input
 								class="form-control has-leading-icon"
 								type="text"
-								id="register-contact"
+								id="register-no_hp"
 								name="no_hp"
+								value="<?= htmlspecialchars($old['no_hp'] ?? '') ?>"
 								placeholder="08xxxxxxxxxx"
-								autocomplete="email"
-								required />
+								autocomplete="email" />
 						</div>
-						<small class="field-hint">Gunakan nomor yang diawali 08 / +62</small>
+						<?= showErrorMessage($errors['no_hp'], '<small class="field-hint">Gunakan nomor yang diawali 08 / +62</small>') ?>
 					</div>
 
 					<fieldset class="form-section motivation-section">
@@ -239,26 +251,28 @@
 								rows="4"
 								maxlength="300"
 								minlength="1"
-								placeholder="Ceritakan singkat alasanmu ingin bergabung dengan KEMATIF..."
-								required></textarea>
+								placeholder="Ceritakan singkat alasanmu ingin bergabung dengan KEMATIF..."><?= htmlspecialchars($old['alasan_bergabung']) ?></textarea>
 							<div class="textarea-meta">
 								<small>Tulis minimal satu kalimat</small><output id="reason-count">0 / 300</output>
 							</div>
+							<?= showErrorMessage($errors['alasan_bergabung'], '') ?>
 						</div>
 					</fieldset>
 
 					<label class="check-label consent-label"><input
 							type="checkbox"
-							name="persetujuan"
-							id="register-consent"
-							required /><span>Saya menyatakan bahwa data yang saya isi sudah benar.
+							name="setuju"
+							id="register-consent" /><span>Saya menyatakan bahwa data yang saya isi sudah benar.
 							<span class="required-mark">*</span></span></label>
+					<div style="margin-top: 30px;">
+						<?= showErrorMessage($errors['setuju'], '') ?>
+					</div>
 				</div>
 
 				<footer class="registration-form-footer">
 					<p>Setelah dikirim, kamu akan menerima konfirmasi</p>
 					<div class="registration-actions">
-						<button class="button button-secondary" type="reset">
+						<button onclick="kosongkanDanReload()" class="button button-secondary" type="reset">
 							Kosongkan</button><button class="button button-primary" type="submit">
 							Daftar / Kirim <span aria-hidden="true">→</span>
 						</button>
@@ -281,7 +295,8 @@
 				form.querySelector("#register-name"),
 				form.querySelector("#register-nim"),
 				form.querySelector("#register-prodi"),
-				form.querySelector("#register-contact"),
+				form.querySelector("#register-email"),
+				form.querySelector("#register-no_hp"),
 				form.querySelector("#register-reason"),
 				form.querySelector("#register-consent"),
 			];
@@ -321,6 +336,15 @@
 			updateProgress();
 			updateReasonCount();
 		})();
+
+		function kosongkanDanReload() {
+			// 1. Bersihkan Penyimpanan (jika Anda menggunakan Session/Local Storage)
+			localStorage.clear();
+			sessionStorage.clear();
+
+			// 2. Reload halaman untuk mengosongkan semua inputan
+			window.location.reload();
+		}
 	</script>
 </body>
 
