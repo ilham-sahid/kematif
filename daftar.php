@@ -140,7 +140,7 @@
 										class="form-control has-leading-icon"
 										type="text"
 										id="register-name"
-										name="nama"
+										name="nama_lengkap"
 										placeholder="Masukkan nama lengkap"
 										autocomplete="name"
 										required />
@@ -186,7 +186,7 @@
 								</div>
 							</div>
 							<div class="form-field">
-								<label for="register-contact">Email / No. HP <span class="required-mark">*</span></label>
+								<label for="register-contact">Email <span class="required-mark">*</span></label>
 								<div class="input-shell">
 									<svg
 										class="field-icon"
@@ -198,8 +198,8 @@
 										class="form-control has-leading-icon"
 										type="text"
 										id="register-contact"
-										name="kontak"
-										placeholder="nama@email.com atau 08xxxxxxxxxx"
+										name="email"
+										placeholder="nama@email.com"
 										autocomplete="email"
 										required />
 								</div>
@@ -207,6 +207,26 @@
 							</div>
 						</div>
 					</fieldset>
+					<div class="form-field">
+						<label for="register-contact">No. HP <span class="required-mark">*</span></label>
+						<div class="input-shell">
+							<svg
+								class="field-icon"
+								viewBox="0 0 24 24"
+								aria-hidden="true">
+								<rect x="3" y="5" width="18" height="14" rx="2" />
+								<path d="m4 7 8 6 8-6" />
+							</svg><input
+								class="form-control has-leading-icon"
+								type="text"
+								id="register-contact"
+								name="no_hp"
+								placeholder="08xxxxxxxxxx"
+								autocomplete="email"
+								required />
+						</div>
+						<small class="field-hint">Gunakan nomor yang diawali 08 / +62</small>
+					</div>
 
 					<fieldset class="form-section motivation-section">
 						<legend>Motivasi</legend>
@@ -215,7 +235,7 @@
 							<textarea
 								class="form-control reason-control"
 								id="register-reason"
-								name="alasan"
+								name="alasan_bergabung"
 								rows="4"
 								maxlength="300"
 								minlength="1"

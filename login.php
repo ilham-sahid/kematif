@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once "backend/helper.php";
+include_once "config/helper.php";
 
 $errors = $_SESSION['errors'] ?? [];
 $old = $_SESSION['old'] ?? [];
@@ -110,7 +110,7 @@ unset($_SESSION['errors'], $_SESSION['old']);
 		<section class="auth-form-wrap" aria-labelledby="login-form-title">
 			<form
 				class="auth-form-card login-form"
-				action="backend/auth/login.php"
+				action="auth/login.php"
 				method="post">
 				<header class="form-card-header">
 					<h2 id="login-form-title">Login ke KEMATIF</h2>

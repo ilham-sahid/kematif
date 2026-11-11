@@ -1,11 +1,11 @@
 <?php
 session_start();
 
-require_once "../database.php";
-require_once "../helper.php";
+require_once "../config/database.php";
+require_once "../config/helper.php";
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-  header("Location: ../../index.html");
+  header("Location: ../../index.php");
   exit;
 }
 
@@ -32,7 +32,7 @@ if (!$validated['success']) {
     'old' => $_POST
   ]);
 
-  header("Location: ../../login.php");
+  header("Location: ../login.php");
   exit();
 }
 
@@ -56,6 +56,6 @@ if ($user && password_verify($_POST['password'], $user['password_hash'])) {
     'old' => $_POST
   ]);
 
-  header("Location: ../../login.php");
+  header("Location: ../login.php");
   exit();
 }
