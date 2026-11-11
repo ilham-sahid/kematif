@@ -864,12 +864,21 @@ textarea.form-control {
 	align-items: center;
 	padding-block: clamp(50px, 7.5vh, 105px);
 }
-.login-layout {
+.auth-main.login-layout {
+	display: grid;
 	grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.12fr);
 	gap: clamp(60px, 8.5vw, 175px);
+	align-items: start;
+	padding-block: clamp(50px, 7.5vh, 105px);
+}
+
+.auth-main.login-layout > .auth-intro {
+	align-self: start;
+	margin-top: 56px;
 }
 .auth-intro {
 	max-width: 670px;
+	align-self: start;
 }
 .auth-title {
 	margin: 30px 0 22px;
@@ -1438,9 +1447,19 @@ textarea.form-control {
 	.auth-main {
 		padding-block: 55px;
 	}
-	.login-layout {
-		grid-template-columns: 1fr 1fr;
-		gap: 35px;
+	.auth-main.login-layout {
+		grid-template-columns: 1fr;
+		gap: 40px;
+		padding-block: 55px;
+	}
+
+	.auth-main.login-layout > .auth-intro {
+		margin-top: 0;
+	}
+
+	.auth-main.login-layout > .auth-form-wrap {
+		max-width: 820px;
+		justify-self: stretch;
 	}
 	.auth-title {
 		font-size: clamp(2.2rem, 4vw, 3rem);
@@ -1645,9 +1664,14 @@ textarea.form-control {
 	.auth-main {
 		padding-block: 38px 28px;
 	}
-	.login-layout {
+	.auth-main.login-layout {
 		grid-template-columns: 1fr;
 		gap: 34px;
+		padding-block: 38px 28px;
+	}
+
+	.auth-main.login-layout > .auth-intro {
+		margin-top: 0;
 	}
 	.auth-intro {
 		max-width: none;
