@@ -55,3 +55,25 @@ function redirectTo(string $url)
   header("Location:" . BASE_URL . $url . ".php");
   exit();
 }
+
+function getSessionByKey(array $sessions)
+{
+  $data = [];
+  foreach ($sessions as $session) {
+    $data[$session] = $_SESSION[$session] ?? [];
+  }
+
+  return $data;
+}
+
+function isLoggedIn()
+{
+  return isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true;
+}
+
+function Logout()
+{
+  session_unset();
+  session_destroy();
+  redirectTo("login");
+}

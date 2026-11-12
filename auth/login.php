@@ -51,6 +51,7 @@ setSession([
     'anggota_id' => $user['anggota_id'],
     'role'       => $user['role']
   ],
+  'isLoggedIn' => true
 ]);
 
-echo "Berhasil Login";
+redirectTo("pengurus/index");

@@ -2,11 +2,8 @@
 session_start();
 include_once "config/helper.php";
 
-$errors = $_SESSION['errors'] ?? null;
-$old = $_SESSION['old'] ?? null;
-$success = $_SESSION['success'] ?? null;
-
-unset($_SESSION['errors'], $_SESSION['old'], $_SESSION['success']);
+extract(getSessionByKey(['errors', 'old', 'success']));
+unsetSession(['errors', 'old', 'success']);
 ?>
 <!doctype html>
 <html lang="id">

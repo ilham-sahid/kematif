@@ -2,10 +2,12 @@
 session_start();
 include_once "config/helper.php";
 
-$errors = $_SESSION['errors'] ?? [];
-$old = $_SESSION['old'] ?? [];
+if (isLoggedIn()) {
+	redirectTo($_SESSION['user']['role'] . "/index");
+}
 
-unset($_SESSION['errors'], $_SESSION['old']);
+extract(getSessionByKey(['errors', 'old']));
+unsetSession(['errors', 'old']);
 ?>
 <!doctype html>
 <html lang="id">
