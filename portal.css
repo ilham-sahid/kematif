@@ -2300,3 +2300,13 @@
 .member-search input {
 	padding-left: 42px;
 }
+
+/* Input error pada form tambah anggota */
+.member-add-field input.member-add-control.is-error {
+	border: 1px solid #ef4444 !important;
+}
+
+.member-add-field input.member-add-control.is-error:focus {
+	border-color: #ef4444 !important;
+	box-shadow: 0 0 0 3px rgb(239 68 68 / 12%);
+}

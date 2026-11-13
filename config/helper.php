@@ -5,13 +5,26 @@ define('BASE_URL', 'http://localhost/kematif/');
 function validate(array $inputData, array $rules)
 {
   $data_valid = filter_var_array($inputData, $rules);
-
   $errors = [];
-  foreach ($rules as $key => $ruleConfig) {
-    $value = $data_valid[$key] ?? null;
 
-    if ($value === false || $value === null || (is_string($value) && trim($value) === '')) {
-      if (is_array($ruleConfig) and isset($ruleConfig['pesan'])) {
+  foreach ($rules as $key => $ruleConfig) {
+    $rawValue = $inputData[$key] ?? null;
+    $isEmpty = ($rawValue === null || (is_string($rawValue) && trim($rawValue) === ''));
+
+    // Cek apakah rule memiliki 'type' => 'optional'
+    $isOptional = (is_array($ruleConfig) && ($ruleConfig['type'] ?? '') === 'optional');
+
+    // 1. Jika field bersifat optional DAN memang tidak diisi (kosong)
+    if ($isOptional && $isEmpty) {
+      // Pastikan data bersih bernilai null, lalu lewati pengecekan error
+      $data_valid[$key] = null;
+      continue;
+    }
+
+    // 2. Jika wajib diisi tapi kosong, ATAU diisi tapi gagal validasi filter_var_array
+    $filteredValue = $data_valid[$key] ?? null;
+    if ($isEmpty || $filteredValue === false || $filteredValue === null) {
+      if (is_array($ruleConfig) && isset($ruleConfig['pesan'])) {
         $errors[$key] = $ruleConfig['pesan'];
       } else {
         $errors[$key] = "Input Kolom " . ucwords(str_replace('_', ' ', $key)) . " tidak valid atau kosong.";
@@ -19,13 +32,13 @@ function validate(array $inputData, array $rules)
     }
   }
 
-  return
-    [
-      'success' => empty($errors),
-      'errors' => $errors,
-      'data' => $data_valid,
-    ];
+  return [
+    'success' => empty($errors),
+    'errors'  => $errors,
+    'data'    => $data_valid,
+  ];
 }
+
 
 function setSession(array $sessions)
 {
@@ -78,7 +91,7 @@ function Logout()
   redirectTo("login");
 }
 
-function dd(string $data)
+function dd($data)
 {
   echo '<pre style="background: #1e1e1e; color: #dcdcdc; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 14px; line-height: 1.5; z-index: 9999; position: relative;">';
   var_dump($data);
@@ -90,4 +103,9 @@ function getInitial(string $nama_lengkap)
 {
   $arrNama = explode(" ", $nama_lengkap);
   return strtoupper($arrNama[0][0] . ($arrNama[1][0] ?? ''));
+}
+
+function errorCSS($name)
+{
+  return $name ? "is-error" : "";
 }

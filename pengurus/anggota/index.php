@@ -1,7 +1,5 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+session_start();
 include_once "../../config/database.php";
 include_once "../../config/helper.php";
 include_once "../../queries/anggota.php";
@@ -10,6 +8,8 @@ $search = trim((string) ($_GET['q'] ?? ''));
 $limit = 10;
 
 extract(getAnggota($pdo, $page, $limit, $search));
+extract(getSessionByKey(['success']));
+unsetSession(['success']);
 ?>
 <!doctype html>
 <html lang="id">
@@ -133,6 +133,29 @@ extract(getAnggota($pdo, $page, $limit, $search));
             <p class="portal-page-description">Kelola data dan status keanggotaan</p>
           </div>
         </header>
+
+        <?php if ($success): ?>
+          <div class="flash-message">
+            <div class="flash-icon">
+              <svg xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="m5 12 4 4L19 6" />
+              </svg>
+            </div>
+
+            <div class="flash-content">
+              <h3><?= htmlspecialchars($success['title'], ENT_QUOTES, 'UTF-8') ?></h3>
+              <p><?= htmlspecialchars($success['message'], ENT_QUOTES, 'UTF-8') ?></p>
+            </div>
+          </div>
+        <?php endif; ?>
 
         <section class="member-toolbar" aria-label="Pencarian dan filter anggota">
           <form class="member-search" role="search" action="#" method="get">
