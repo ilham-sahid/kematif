@@ -77,3 +77,17 @@ function Logout()
   session_destroy();
   redirectTo("login");
 }
+
+function dd(string $data)
+{
+  echo '<pre style="background: #1e1e1e; color: #dcdcdc; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 14px; line-height: 1.5; z-index: 9999; position: relative;">';
+  var_dump($data);
+  echo '</pre>';
+  die(); // Menghentikan eksekusi kode setelahnya
+}
+
+function getInitial(string $nama_lengkap)
+{
+  $arrNama = explode(" ", $nama_lengkap);
+  return strtoupper($arrNama[0][0] . ($arrNama[1][0] ?? ''));
+}

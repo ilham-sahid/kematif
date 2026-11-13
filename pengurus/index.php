@@ -47,8 +47,8 @@ if (isset($_POST['logout'])) {
       </summary>
       <form action="" method="post">
         <div class="portal-profile-menu">
-          <a class="button-logout">Profil pengurus</a>
-          <button class="button-logout" name="logout">Keluar</button>
+          <button class="button-logout" type="button">Profil pengurus</button>
+          <button class="button-logout" type="submit" name="logout">Keluar</button>
         </div>
       </form>
     </details>
@@ -71,7 +71,7 @@ if (isset($_POST['logout'])) {
             </a>
           </li>
           <li>
-            <a class="portal-nav-link" href="#data-anggota">
+            <a class="portal-nav-link" href="<?= BASE_URL . "pengurus/anggota/index.php" ?>">
               <svg class="portal-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M16 20v-1.5a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4V20"></path>
                 <circle cx="9.5" cy="7" r="3.5"></circle>
