@@ -2,8 +2,8 @@
 session_start();
 include_once "config/helper.php";
 
-if (isLoggedIn()) {
-	redirectTo($_SESSION['user']['role'] . "/index");
+if (isset($_SESSION['user']) && $_SESSION['user'] !== []) {
+	redirectTo($_SESSION['user']['role'] . '/index');
 }
 
 extract(getSessionByKey(['errors', 'old']));
@@ -155,7 +155,7 @@ unsetSession(['errors', 'old']);
 								<path d="M6.5 15c.7-1.5 4.3-1.5 5 0M14 10h4M14 14h4" />
 							</svg>
 							<input
-								class="form-control <?= $errors['username'] ? 'is-error' : '' ?> has-leading-icon"
+								class="form-control <?= $errors['username'] ?? '' ? 'is-error' : '' ?> has-leading-icon"
 								type="text"
 								id="login-nim"
 								name="username"
@@ -174,7 +174,7 @@ unsetSession(['errors', 'old']);
 								<path d="M8 10V7a4 4 0 1 1 8 0v3M12 14v3" />
 							</svg>
 							<input
-								class="form-control <?= $errors['password'] ? 'is-error' : '' ?> has-leading-icon has-trailing-control"
+								class="form-control <?= $errors['password'] ?? '' ? 'is-error' : '' ?> has-leading-icon has-trailing-control"
 								type="password"
 								id="login-password"
 								name="password"

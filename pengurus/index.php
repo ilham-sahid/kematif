@@ -2,9 +2,8 @@
 session_start();
 include_once "../config/helper.php";
 
-if (!isLoggedIn()) {
-  redirectTo("login");
-}
+handleRedirect("pengurus", $_SESSION['isLoggedIn'] ?? false, $_SESSION['user'] ?? []);
+
 if (isset($_POST['logout'])) {
   Logout();
 }

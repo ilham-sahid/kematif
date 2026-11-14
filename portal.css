@@ -2310,3 +2310,208 @@
 	border-color: #ef4444 !important;
 	box-shadow: 0 0 0 3px rgb(239 68 68 / 12%);
 }
+
+/* =====================================
+   MODAL HAPUS ANGGOTA
+===================================== */
+
+.member-delete-modal {
+	width: min(440px, calc(100% - 32px));
+	max-width: 440px;
+	max-height: calc(100% - 32px);
+	margin: auto;
+	padding: 0;
+	overflow: auto;
+
+	border: 1px solid var(--portal-line);
+	border-radius: 19px;
+
+	color: var(--portal-ink);
+	background: white;
+
+	box-shadow: 0 24px 70px rgb(15 23 42 / 18%);
+}
+
+.member-delete-modal::backdrop {
+	background: rgb(15 23 42 / 48%);
+	backdrop-filter: blur(3px);
+}
+
+.member-delete-modal[open] {
+	animation: delete-modal-show 0.22s ease-out;
+}
+
+@keyframes delete-modal-show {
+	from {
+		opacity: 0;
+		transform: translateY(10px) scale(0.97);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+.member-delete-content {
+	padding: 28px;
+}
+
+/* Icon sampah */
+.member-delete-icon {
+	display: grid;
+	width: 52px;
+	height: 52px;
+	place-items: center;
+
+	margin-bottom: 20px;
+
+	border-radius: 14px;
+
+	color: #dc2626;
+	background: #fff1f2;
+}
+
+.member-delete-icon svg {
+	width: 25px;
+	height: 25px;
+}
+
+/* Judul dan deskripsi */
+.member-delete-content h2 {
+	margin: 0 0 9px;
+
+	font-size: 20px;
+	font-weight: 750;
+	letter-spacing: -0.025em;
+}
+
+.member-delete-content > p {
+	margin: 0 0 20px;
+
+	color: var(--portal-muted);
+	font-size: 13px;
+	line-height: 1.7;
+}
+
+/* Informasi anggota */
+.member-delete-info {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+
+	margin-bottom: 24px;
+	padding: 14px 16px;
+
+	border: 1px solid var(--portal-line);
+	border-radius: 11px;
+
+	background: #f8fafc;
+}
+
+.member-delete-info strong {
+	font-size: 14px;
+	font-weight: 650;
+}
+
+.member-delete-info small {
+	color: var(--portal-muted);
+	font-size: 12px;
+}
+
+/* Tombol */
+.member-delete-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+}
+
+.member-delete-cancel,
+.member-delete-confirm {
+	display: inline-flex;
+	min-height: 43px;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+
+	padding: 10px 17px;
+
+	border: 1px solid transparent;
+	border-radius: 9px;
+
+	font-family: inherit;
+	font-size: 13px;
+	font-weight: 600;
+
+	cursor: pointer;
+
+	transition:
+		background 0.2s ease,
+		border-color 0.2s ease,
+		color 0.2s ease,
+		transform 0.2s ease,
+		box-shadow 0.2s ease;
+}
+
+/* Batal */
+.member-delete-cancel {
+	border-color: #d6dce4;
+	color: #263246;
+	background: #f3f5f7;
+}
+
+.member-delete-cancel:hover {
+	border-color: #bdc9d5;
+	color: #263246;
+	background: #e9eef3;
+}
+
+/* Konfirmasi hapus */
+.member-delete-confirm {
+	color: white;
+	background: #dc4545;
+}
+
+.member-delete-confirm:hover {
+	transform: translateY(-2px);
+	background: #c83232;
+	box-shadow: 0 5px 13px rgb(220 69 69 / 20%);
+}
+
+.member-delete-confirm svg {
+	width: 16px;
+	height: 16px;
+}
+
+.member-delete-cancel:active,
+.member-delete-confirm:active {
+	transform: translateY(0);
+}
+
+.member-delete-cancel:focus-visible,
+.member-delete-confirm:focus-visible {
+	outline: 3px solid rgb(7 159 208 / 25%);
+	outline-offset: 3px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+	.member-delete-content {
+		padding: 23px 20px;
+	}
+
+	.member-delete-actions {
+		flex-direction: column-reverse;
+	}
+
+	.member-delete-cancel,
+	.member-delete-confirm {
+		width: 100%;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.member-delete-modal[open] {
+		animation: none;
+	}
+}

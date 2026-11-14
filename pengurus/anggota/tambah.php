@@ -3,6 +3,12 @@ session_start();
 include_once "../../config/helper.php";
 include_once "../../queries/anggota.php";
 
+handleRedirect("pengurus", $_SESSION['isLoggedIn'] ?? false, $_SESSION['user'] ?? []);
+
+if (isset($_POST['logout'])) {
+  Logout();
+}
+
 extract(getSessionByKey(['errors', 'old']));
 unsetSession(['errors', 'old']);
 ?>

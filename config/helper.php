@@ -63,9 +63,10 @@ function showErrorMessage(?string $error, string $default)
   return $default;
 }
 
-function redirectTo(string $url)
+function redirectTo(string $url, string $param = '')
 {
-  header("Location:" . BASE_URL . $url . ".php");
+  $isParam = $param ? $param : '';
+  header("Location:" . BASE_URL . $url . ".php" . $isParam);
   exit();
 }
 
@@ -79,9 +80,20 @@ function getSessionByKey(array $sessions)
   return $data;
 }
 
-function isLoggedIn()
+function handleRedirect(string $role, bool $isLoggedIn, array $user)
 {
-  return isset($_SESSION['isLoggedIn']) && $_SESSION['isLoggedIn'] === true;
+  if (!$isLoggedIn) {
+    redirectTo("index");
+    return;
+  }
+  if (!isset($user['role'])) {
+    redirectTo("index");
+    return;
+  }
+  if ($user['role'] !== $role) {
+    redirectTo($user['role'] . "/index");
+    return;
+  }
 }
 
 function Logout()

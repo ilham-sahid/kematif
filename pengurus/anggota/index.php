@@ -3,6 +3,12 @@ session_start();
 include_once "../../config/database.php";
 include_once "../../config/helper.php";
 include_once "../../queries/anggota.php";
+
+handleRedirect("pengurus", $_SESSION['isLoggedIn'] ?? false, $_SESSION['user'] ?? []);
+
+if (isset($_POST['logout'])) {
+  Logout();
+}
 $page = (int) ($_GET['page'] ?? 1);
 $search = trim((string) ($_GET['q'] ?? ''));
 $limit = 10;
@@ -218,15 +224,24 @@ unsetSession(['success']);
                       </div>
                     </td>
                     <td class="member-nim"><?= $a['nim'] ?></td>
-                    <td><span class="member-status-pill is-active"><span></span><?= $a['status_keanggotaan'] ?><svg class="portal-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <td><span class="member-status-pill is-active"><span></span><?= $a['status_keanggotaan'] == "aktif" ? "Aktif" : 'Tidak Aktif' ?><svg class="portal-icon" viewBox="0 0 24 24" aria-hidden="true">
                           <path d="m6 9 6 6 6-6"></path>
                         </svg></span></td>
                     <td>
-                      <div class="member-actions"><button class="member-action member-edit" type="button"><svg class="portal-icon" viewBox="0 0 24 24" aria-hidden="true">
+                      <div class="member-actions"><a class="member-action member-edit" href="edit.php?id=<?= $a['id'] ?>"><svg class="portal-icon" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="m14 5 5 5M4 20l4.2-.9L19 8.3a2.1 2.1 0 0 0-3-3L5.2 16.1 4 20Z"></path>
-                          </svg>Edit</button><button class="member-action member-delete" type="button"><svg class="portal-icon" viewBox="0 0 24 24" aria-hidden="true">
+                          </svg>Edit</a>
+                        <button class="member-action member-delete"
+                          type="button"
+                          data-member-id="<?= $a['id'] ?>"
+                          data-member-name="<?= $a['nama_lengkap'] ?>"
+                          data-member-nim="<?= $a['nim'] ?>">
+                          <svg class="portal-icon" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M4 7h16M10 11v6m4-6v6M6 7l1 14h10l1-14M9 7V4h6v3"></path>
-                          </svg>Hapus</button></div>
+                          </svg>
+                          Hapus
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 <?php
@@ -319,6 +334,94 @@ unsetSession(['success']);
       </div>
     </main>
   </div>
+
+  <dialog class="member-delete-modal" id="member-delete-modal"
+    aria-labelledby="member-delete-title"
+    aria-describedby="member-delete-description">
+
+    <div class="member-delete-content">
+
+      <div class="member-delete-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 7h16M10 11v6m4-6v6M6 7l1 14h10l1-14M9 7V4h6v3"></path>
+        </svg>
+      </div>
+
+      <h2 id="member-delete-title">Hapus anggota?</h2>
+
+      <p id="member-delete-description">
+        Apakah kamu yakin ingin menghapus anggota ini?
+        Tindakan ini akan menyembunyikan anggota dari daftar
+        dan menonaktifkan akun login.
+      </p>
+
+      <div class="member-delete-info">
+        <strong id="delete-member-name">Nama Anggota</strong>
+        <small id="delete-member-nim">NIM: -</small>
+      </div>
+
+      <form action="proses/hapus.php" method="post">
+
+        <input type="hidden" name="id" id="delete-member-id">
+
+        <div class="member-delete-actions">
+
+          <button type="button"
+            class="member-delete-cancel"
+            id="close-delete-modal">
+            Batal
+          </button>
+
+          <button type="submit"
+            class="member-delete-confirm">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 7h16M10 11v6m4-6v6M6 7l1 14h10l1-14M9 7V4h6v3"></path>
+            </svg>
+            Hapus Anggota
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+  </dialog>
+
+  <script>
+    const deleteModal = document.getElementById('member-delete-modal');
+
+    const deleteName = document.getElementById('delete-member-name');
+    const deleteNim = document.getElementById('delete-member-nim');
+    const deleteId = document.getElementById('delete-member-id');
+
+    const closeDeleteModal = document.getElementById('close-delete-modal');
+
+    // Ketika tombol hapus diklik
+    document.addEventListener('click', function(event) {
+
+      const button = event.target.closest('.member-delete');
+
+      if (!button) return;
+
+      deleteId.value = button.dataset.memberId;
+      deleteName.textContent = button.dataset.memberName;
+      deleteNim.textContent = 'NIM: ' + button.dataset.memberNim;
+
+      deleteModal.showModal();
+    });
+
+    // Tutup modal melalui tombol Batal
+    closeDeleteModal.addEventListener('click', function() {
+      deleteModal.close();
+    });
+
+    // Tutup modal ketika area luar diklik
+    deleteModal.addEventListener('click', function(event) {
+      if (event.target === deleteModal) {
+        deleteModal.close();
+      }
+    });
+  </script>
 </body>
 
 </html>
